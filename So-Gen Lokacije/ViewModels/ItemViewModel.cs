@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -188,6 +189,11 @@ namespace So_Gen_Lokacije.ViewModels
                 return -1;
             else
                 return 1;
+        }
+
+        public async Task GetLocationData()
+        {
+
         }
     }
 }
