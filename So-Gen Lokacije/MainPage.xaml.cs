@@ -8,6 +8,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using So_Gen_Lokacije.Resources;
+using So_Gen_Lokacije.ViewModels;
 
 namespace So_Gen_Lokacije
 {
@@ -24,13 +25,27 @@ namespace So_Gen_Lokacije
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
         }
-
+        
         // Load data for the ViewModel Items
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (!App.ViewModel.IsDataLoaded)
             {
                 App.ViewModel.LoadData();
+            }
+        }
+
+        /// <summary>
+        /// Detect selection in the list.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LongListSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(((LongListSelector)sender).SelectedItem.GetType().Equals(typeof(ItemViewModel)))
+            {
+                ItemViewModel ivm = (ItemViewModel)((LongListSelector)sender).SelectedItem;
+                int id = ivm.Id;
             }
         }
 

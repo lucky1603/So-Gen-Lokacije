@@ -61,7 +61,7 @@
             <!--Pivot item one-->
             <phone:PivotItem Header="List">
                 <!--Double line list with text wrapping-->
-                <phone:LongListSelector Margin="0,0,-12,0" ItemsSource="{Binding Items}">
+                <phone:LongListSelector Margin="0,0,-12,0" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" SelectionChanged="LongListSelector_SelectionChanged">
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="0,0,0,17">

@@ -17,6 +17,7 @@ namespace So_Gen_Lokacije.ViewModels
     {
         private double _latitude = 0.0;
         private double _longitude = 0.0;
+        private ItemViewModel selectedItem;
 
         public MainViewModel()
         {
@@ -28,6 +29,20 @@ namespace So_Gen_Lokacije.ViewModels
         /// A collection for ItemViewModel objects.
         /// </summary>
         public SortedObservableCollection<ItemViewModel> Items { get; private set; }
+
+        public ItemViewModel SelectedItem
+        {
+            get
+            {
+                return this.selectedItem;
+            }
+
+            set
+            {
+                this.selectedItem = value;
+                this.NotifyPropertyChanged("SelectedItem");
+            }
+        }
 
         public double Longitude
         {
