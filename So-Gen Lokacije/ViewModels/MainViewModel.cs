@@ -70,23 +70,38 @@ namespace So_Gen_Lokacije.ViewModels
                 .PostUrlEncodedAsync(new { data = "{\"0\":\"063297167\"}", thing2 = "world" })
                 .ReceiveString();
 
-            String[] tokens = responseString.Split('|');
+            String[] entries = responseString.Split(new char[] { ';', '~'});
 
-            for(int i = 0; i < tokens.Length; i += 4)
+
+
+            for(int i = 0; i < entries.Length; i ++)
             {
-                try
+                if (i == 0)
                 {
-                    this.Items.Add(new ItemViewModel()
+                    // do something
+                }
+                else
+                {
+                    String[] tokens = entries[i].Split('|');
+                    
+                    try
                     {
-                        LineOne = tokens[i+1],
-                        LineTwo = tokens[i],
-                        LineThree = tokens[i + 2] + ", " + tokens[i + 3]
-                    });
+                        this.Items.Add(new ItemViewModel()
+                        {
+                            Id = System.Convert.ToInt32(tokens[0]),
+                            Latitude = System.Convert.ToDouble(tokens[2]),
+                            Longitude = System.Convert.ToDouble(tokens[3]),
+                            LineOne = tokens[0] + "." + tokens[1],
+                            LineTwo = tokens[4],
+                            LineThree = tokens[2] + ", " + tokens[3]
+                        });
+                    }
+                    catch
+                    {
+                        continue;
+                    }
                 }
-                catch
-                {
-                    continue;
-                }
+                
                 
             }
 

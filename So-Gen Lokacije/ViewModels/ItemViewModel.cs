@@ -12,6 +12,62 @@ namespace So_Gen_Lokacije.ViewModels
 {
     public class ItemViewModel : INotifyPropertyChanged
     {
+        private int _id;
+
+        /// <summary>
+        /// Id of the item. This is not displayed as the separate line, but will be used in the next step
+        /// in order to get the desired option from the server.
+        /// </summary>
+        /// <r
+        public int Id
+        {
+            get
+            {
+                return _id;
+            }
+
+            set
+            {
+                _id = value;
+            }
+        }
+
+        private double _longitude;
+
+        /// <summary>
+        /// Gets/sets longitude value.
+        /// </summary>
+        public double Longitude
+        {
+            get
+            {
+                return _longitude;
+            }
+
+            set
+            {
+                _longitude = value;
+            }
+        }
+
+        private double _latitude;
+        
+        /// <summary>
+        /// Gets/sets latitude value.
+        /// </summary>
+        public double Latitude
+        {
+            get
+            {
+                return _latitude;
+            }
+
+            set
+            {
+                _latitude = value;
+            }
+        }
+
         private string _lineOne;
         /// <summary>
         /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
@@ -74,7 +130,7 @@ namespace So_Gen_Lokacije.ViewModels
                 }
             }
         }
-
+        
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String propertyName)
         {
