@@ -114,6 +114,7 @@
     </Compile>
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\ServiceViewModel.cs" />
     <Compile Include="ViewModels\SortedObservableCollection.cs" />
   </ItemGroup>
   <ItemGroup>

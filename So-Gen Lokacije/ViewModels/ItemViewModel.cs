@@ -14,6 +14,7 @@ namespace So_Gen_Lokacije.ViewModels
     public class ItemViewModel : INotifyPropertyChanged, IComparable<ItemViewModel>
     {
         private int _id;
+        private SortedObservableCollection<ServiceViewModel> _services;
 
         /// <summary>
         /// Id of the item. This is not displayed as the separate line, but will be used in the next step
@@ -30,6 +31,22 @@ namespace So_Gen_Lokacije.ViewModels
             set
             {
                 _id = value;
+            }
+        }
+
+        /// <summary>
+        /// Services attached to this location.
+        /// </summary>
+        public SortedObservableCollection<ServiceViewModel> Services
+        {
+            get
+            {
+                if(this._services == null)
+                {
+                    this._services = new SortedObservableCollection<ServiceViewModel>();
+                }
+
+                return this._services;
             }
         }
 
@@ -193,7 +210,28 @@ namespace So_Gen_Lokacije.ViewModels
 
         public async Task GetLocationData()
         {
+            Services.Clear();
 
+            Services.Add(new ServiceViewModel()
+            {
+                Id = 1,
+                Description = "Uplata/isplata - privatna lica",
+                Queued = 5
+            });
+
+            Services.Add(new ServiceViewModel()
+            {
+                Id = 2,
+                Description = "Uplata/isplata - pravna lica",
+                Queued = 7
+            });
+
+            Services.Add(new ServiceViewModel()
+            {
+                Id = 3,
+                Description = "Uplata/isplata - pravna lica",
+                Queued = 2
+            });
         }
     }
 }

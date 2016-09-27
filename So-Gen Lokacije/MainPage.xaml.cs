@@ -40,12 +40,14 @@ namespace So_Gen_Lokacije
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void LongListSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void LongListSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(((LongListSelector)sender).SelectedItem.GetType().Equals(typeof(ItemViewModel)))
+            if (((LongListSelector)sender).SelectedItem.GetType().Equals(typeof(ItemViewModel)))
             {
                 ItemViewModel ivm = (ItemViewModel)((LongListSelector)sender).SelectedItem;
-                int id = ivm.Id;
+                await ivm.GetLocationData();
+                this.LayoutRoot.RowDefinitions[1].Height = new GridLength(0);
+                this.LayoutRoot.RowDefinitions[2].Height = new GridLength(2, GridUnitType.Star);
             }
         }
 
