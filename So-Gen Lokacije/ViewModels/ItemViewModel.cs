@@ -10,7 +10,7 @@ using System.Windows.Media.Animation;
 
 namespace So_Gen_Lokacije.ViewModels
 {
-    public class ItemViewModel : INotifyPropertyChanged
+    public class ItemViewModel : INotifyPropertyChanged, IComparable<ItemViewModel>
     {
         private int _id;
 
@@ -130,6 +130,47 @@ namespace So_Gen_Lokacije.ViewModels
                 }
             }
         }
+
+        private double distanceX;
+
+        public double DistanceX
+        {
+            get
+            {
+                return distanceX;
+            }
+
+            set
+            {
+                distanceX = value;
+            }
+        }
+
+        private double distanceY;
+
+        public double DistanceY
+        {
+            get
+            {
+                return distanceY;
+            }
+
+            set
+            {
+                distanceY = value;
+            }
+        }
+
+        /// <summary>
+        /// Return the distance to my position.
+        /// </summary>
+        public double Distance
+        {
+            get
+            {
+                return Math.Sqrt(Math.Pow(DistanceX, 2) + Math.Pow(DistanceY, 2));
+            }
+        }
         
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String propertyName)
@@ -139,6 +180,14 @@ namespace So_Gen_Lokacije.ViewModels
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        public int CompareTo(ItemViewModel other)
+        {
+            if (other.Distance > this.Distance)
+                return -1;
+            else
+                return 1;
         }
     }
 }

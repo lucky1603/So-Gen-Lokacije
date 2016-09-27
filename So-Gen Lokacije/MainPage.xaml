@@ -48,6 +48,12 @@
             <StackPanel Grid.Column="1">
                 <TextBlock>Societe Generale</TextBlock>
                 <TextBlock>Serbia</TextBlock>
+                <!--
+                <StackPanel x:Name="coordsPanel" Orientation="Horizontal">
+                    <TextBox Text="{Binding Latitude}"/>
+                    <TextBox Text="{Binding Longitude}"/>
+                </StackPanel>
+                -->
             </StackPanel>
         </Grid>
         <!--Pivot Control-->
