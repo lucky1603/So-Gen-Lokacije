@@ -18,7 +18,7 @@
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="0" />
         </Grid.RowDefinitions>
 
@@ -89,6 +89,38 @@
                 </phone:LongListSelector>
             </phone:PivotItem>
         </phone:Pivot>
+        <StackPanel x:Name="SecondPanel" Grid.Row="2">
+            <TextBlock Text="{Binding LineOne}" TextWrapping="Wrap" Margin="12,20,0,0" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+            <TextBlock Text="{Binding LineTwo}" TextWrapping="Wrap" Margin="12,0,0,0" FontSize="14"/>
+            <TextBlock TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}" Margin="12, 30, 0, 0">
+                Dobrodošli u našu ekspozituru. Na raspolaganju su vam sledeći servisi:
+            </TextBlock>
+            <phone:LongListSelector x:Name="ServiceList" ItemsSource="{Binding Services}" Margin="12, 40, 0, 0">
+                <phone:LongListSelector.ItemTemplate>
+                    <DataTemplate>
+                        <Grid x:Name="serviceGrid">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding Id}" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="{Binding Description}" Grid.Row="0" Style="{StaticResource PhoneTextLargeStyle}" TextWrapping="Wrap"/>
+                                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                    <TextBlock Style="{StaticResource PhoneTextSmallStyle}">Broj osoba trenutno na cekanju: </TextBlock>
+                                    <TextBlock Text="{Binding Queued}" Style="{StaticResource PhoneTextSubtleStyle}"></TextBlock>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </phone:LongListSelector.ItemTemplate>
+                
+            </phone:LongListSelector>
+        </StackPanel>
 
         <!--Uncomment to see an alignment grid to help ensure your controls are
             aligned on common boundaries.  The image has a top margin of -32px to

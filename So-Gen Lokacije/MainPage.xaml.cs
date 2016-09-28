@@ -46,8 +46,9 @@ namespace So_Gen_Lokacije
             {
                 ItemViewModel ivm = (ItemViewModel)((LongListSelector)sender).SelectedItem;
                 await ivm.GetLocationData();
+                this.SecondPanel.DataContext = ivm;
                 this.LayoutRoot.RowDefinitions[1].Height = new GridLength(0);
-                this.LayoutRoot.RowDefinitions[2].Height = new GridLength(2, GridUnitType.Star);
+                this.LayoutRoot.RowDefinitions[2].Height = GridLength.Auto;
             }
         }
 

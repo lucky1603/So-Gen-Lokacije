@@ -53,6 +53,8 @@ namespace So_Gen_Lokacije.ViewModels
             }
         }
 
+
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String propertyName)
         {
