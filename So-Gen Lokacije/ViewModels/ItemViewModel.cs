@@ -237,7 +237,7 @@ namespace So_Gen_Lokacije.ViewModels
                 OrderMark = "A",
                 Description = "Uplata/isplata - privatna lica",
                 Queued = 5,
-                MinutesEstimated = 0
+                MinutesEstimated = 0.0
             });
 
             Services.Add(new ServiceViewModel()
@@ -246,7 +246,7 @@ namespace So_Gen_Lokacije.ViewModels
                 OrderMark = "B",
                 Description = "Uplata/isplata - pravna lica",
                 Queued = 7, 
-                MinutesEstimated = 0
+                MinutesEstimated = 0.0
             });
 
             Services.Add(new ServiceViewModel()
@@ -255,7 +255,7 @@ namespace So_Gen_Lokacije.ViewModels
                 OrderMark = "C",
                 Description = "Uplata/isplata - pravna lica",
                 Queued = 2,
-                MinutesEstimated = 0
+                MinutesEstimated = 0.0
             });
 
             using (var client = new HttpClient())
@@ -271,7 +271,7 @@ namespace So_Gen_Lokacije.ViewModels
                 var content = new FormUrlEncodedContent(values);
                 var response = await client.PostAsync("http://172.25.28.112/services/mobile_get_services.php", content);
                 var responseString = await response.Content.ReadAsStringAsync();
-                if(!responseString.Contains("error") && !responseString.Contains("Error"))
+                if(!responseString.Contains("ERR=4") && !responseString.Contains("NEPOZNATA GRESKA"))
                 {
                     Services.Clear();
                     String[] entries = responseString.Split(new char[] { '~', ';' });
@@ -293,7 +293,7 @@ namespace So_Gen_Lokacije.ViewModels
                                     OrderMark = tokens[0],
                                     Description = tokens[1],
                                     Queued = System.Convert.ToInt32(tokens[2]),
-                                    MinutesEstimated = System.Convert.ToInt32(tokens[3])
+                                    MinutesEstimated = System.Convert.ToDouble(tokens[3])
                                 };
                                 Services.Add(svm);
                             }
@@ -303,15 +303,26 @@ namespace So_Gen_Lokacije.ViewModels
                     {
                         Services.Add(new ServiceViewModel
                         {
-                            Id = 0,
+                            Id = -1,
                             OrderMark = "!",
                             Description = "Nema definisanih servisa",
                             Queued = 0,
-                            MinutesEstimated = 0
+                            MinutesEstimated = 0.0
                         });
-                    }
-                    
-                }                
+                    }                    
+                }    
+                else
+                {
+                    Services.Clear();
+                    Services.Add(new ServiceViewModel
+                    {
+                        Id = -1,
+                        OrderMark = "!",
+                        Description = "Nema definisanih servisa",
+                        Queued = 0,
+                        MinutesEstimated = 0.0
+                    });
+                }            
             }
 
             int a = 1;

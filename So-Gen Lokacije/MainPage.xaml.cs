@@ -46,12 +46,14 @@ namespace So_Gen_Lokacije
             {
                 ServiceViewModel svm = (ServiceViewModel)this.ServiceList.SelectedItem;
                 ItemViewModel ivm = (ItemViewModel)this.LocationList.SelectedItem;
-                string message = "Zahtevali ste rezervaciju servisa - " + svm.Description + ". Svaka zloupotreba se surovo kaznjava!!! Jeste li sigurni da hocete da nastavite?";
-                if(MessageBox.Show(message) == MessageBoxResult.OK)
+                string message = "Zahtevali ste rezervaciju servisa - " + svm.Description + ". Jeste li sigurni da hocete da nastavite?";
+                if(MessageBox.Show(message, "Provera", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
-                    await svm.MakeReservation(ivm.Id);
+                    svm.MakeReservation(ivm.Id);
+                    message = "Poslali ste zahtev za rezervacijom servisa - " + svm.Description + ". Uskoro ćete kao potvrdu primiti SMS poruku sa vašim brojem na listi čekanja. Sačuvajte tu poruku.";
+                    MessageBox.Show(message, "Potvrda", MessageBoxButton.OK);
                 }
-                
+                                
                 this.LayoutRoot.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Star);
                 this.LayoutRoot.RowDefinitions[2].Height = new GridLength(0);
             }
@@ -67,6 +69,39 @@ namespace So_Gen_Lokacije
                 }
             }
             
+        }
+       
+        private async void ServiceList_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (sender == this.ServiceList)
+            {
+                ServiceViewModel svm = (ServiceViewModel)this.ServiceList.SelectedItem;
+                ItemViewModel ivm = (ItemViewModel)this.LocationList.SelectedItem;
+                if(svm.Id != -1)
+                {
+                    string message = "Zahtevali ste rezervaciju servisa - " + svm.Description + ". Jeste li sigurni da hocete da nastavite?";
+                    if (MessageBox.Show(message, "Provera", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                    {
+                        svm.MakeReservation(ivm.Id);
+                        message = "Poslali ste zahtev za rezervacijom servisa - " + svm.Description + ". Uskoro ćete kao potvrdu primiti SMS poruku sa vašim brojem na listi čekanja. Sačuvajte tu poruku.";
+                        MessageBox.Show(message, "Potvrda", MessageBoxButton.OK);
+                    }
+                }
+                
+                this.LayoutRoot.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Star);
+                this.LayoutRoot.RowDefinitions[2].Height = new GridLength(0);
+            }
+            else if (sender == this.LocationList)
+            {
+                if (((LongListSelector)sender).SelectedItem.GetType().Equals(typeof(ItemViewModel)))
+                {
+                    ItemViewModel ivm = (ItemViewModel)((LongListSelector)sender).SelectedItem;
+                    await ivm.GetLocationData();
+                    this.SecondPanel.DataContext = ivm;
+                    this.LayoutRoot.RowDefinitions[1].Height = new GridLength(0);
+                    this.LayoutRoot.RowDefinitions[2].Height = new GridLength(1, GridUnitType.Star);
+                }
+            }
         }
 
         // Sample code for building a localized ApplicationBar

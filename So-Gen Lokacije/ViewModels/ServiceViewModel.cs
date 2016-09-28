@@ -15,7 +15,7 @@ namespace So_Gen_Lokacije.ViewModels
         private string orderMark;
         private string description;
         private int queued;
-        private int minutesEstimated;
+        private double minutesEstimated;
 
         public int Id
         {
@@ -57,7 +57,7 @@ namespace So_Gen_Lokacije.ViewModels
             }
         }
 
-        public int MinutesEstimated
+        public double MinutesEstimated
         {
             get
             {

@@ -63,7 +63,7 @@
             <phone:PivotItem Header="List">
                 <!--Double line list with text wrapping-->
                 <phone:LongListSelector x:Name="LocationList" Margin="0,0,-12,0" ItemsSource="{Binding Items}" 
-                           SelectedItem="{Binding SelectedItem}" SelectionChanged="LongListSelector_SelectionChanged">
+                           SelectedItem="{Binding SelectedItem}" Tap="ServiceList_Tap">
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="0,0,0,17">
@@ -97,7 +97,7 @@
                 Dobrodošli u našu ekspozituru. Na raspolaganju su vam sledeći servisi:
             </TextBlock>
             <phone:LongListSelector x:Name="ServiceList" ItemsSource="{Binding Services}" 
-                   Margin="12, 40, 0, 0" SelectionChanged="LongListSelector_SelectionChanged" SelectedItem="{Binding SelectedService}">
+                   Margin="12, 40, 0, 0" Tap="ServiceList_Tap" SelectedItem="{Binding SelectedService}">
                 <phone:LongListSelector.ItemTemplate>
                     <DataTemplate>
                         <Grid x:Name="serviceGrid">
