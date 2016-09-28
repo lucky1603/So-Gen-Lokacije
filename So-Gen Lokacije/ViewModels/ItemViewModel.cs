@@ -19,6 +19,7 @@ namespace So_Gen_Lokacije.ViewModels
     {
         private int _id;
         private SortedObservableCollection<ServiceViewModel> _services;
+        private ServiceViewModel _selectedService;
 
         /// <summary>
         /// Id of the item. This is not displayed as the separate line, but will be used in the next step
@@ -193,7 +194,21 @@ namespace So_Gen_Lokacije.ViewModels
                 return Math.Sqrt(Math.Pow(DistanceX, 2) + Math.Pow(DistanceY, 2));
             }
         }
-        
+
+        public ServiceViewModel SelectedService
+        {
+            get
+            {
+                return _selectedService;
+            }
+
+            set
+            {
+                _selectedService = value;
+                this.NotifyPropertyChanged("SelectedService");
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String propertyName)
         {
@@ -249,7 +264,7 @@ namespace So_Gen_Lokacije.ViewModels
 
                 var values = new Dictionary<string, string>
                 {
-                   { "data[0]", "063297167" },
+                   { "data[0]", "+381638620648" },
                    { "data[1]", Id.ToString() }
                 };
 

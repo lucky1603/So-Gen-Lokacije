@@ -62,7 +62,8 @@
             <!--Pivot item one-->
             <phone:PivotItem Header="List">
                 <!--Double line list with text wrapping-->
-                <phone:LongListSelector Margin="0,0,-12,0" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" SelectionChanged="LongListSelector_SelectionChanged">
+                <phone:LongListSelector x:Name="LocationList" Margin="0,0,-12,0" ItemsSource="{Binding Items}" 
+                           SelectedItem="{Binding SelectedItem}" SelectionChanged="LongListSelector_SelectionChanged">
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="0,0,0,17">
@@ -95,7 +96,8 @@
             <TextBlock TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}" Margin="12, 30, 0, 0">
                 Dobrodošli u našu ekspozituru. Na raspolaganju su vam sledeći servisi:
             </TextBlock>
-            <phone:LongListSelector x:Name="ServiceList" ItemsSource="{Binding Services}" Margin="12, 40, 0, 0" SelectionChanged="LongListSelector_SelectionChanged">
+            <phone:LongListSelector x:Name="ServiceList" ItemsSource="{Binding Services}" 
+                   Margin="12, 40, 0, 0" SelectionChanged="LongListSelector_SelectionChanged" SelectedItem="{Binding SelectedService}">
                 <phone:LongListSelector.ItemTemplate>
                     <DataTemplate>
                         <Grid x:Name="serviceGrid">
@@ -103,13 +105,13 @@
                                 <ColumnDefinition Width="70"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="{Binding OrderMark}" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                            <TextBlock Grid.Column="0" Text="{Binding OrderMark}" Style="{StaticResource PhoneTextExtraLargeStyle}" TextWrapping="Wrap"/>
                             <Grid Grid.Column="1">
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="{Binding Description}" Grid.Row="0" Style="{StaticResource PhoneTextLargeStyle}" TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding Description}" Grid.Row="0" Style="{StaticResource PhoneTextTitle3Style}" TextWrapping="Wrap"/>
                                 <StackPanel Grid.Row="1" Orientation="Horizontal">
                                     <TextBlock Style="{StaticResource PhoneTextSmallStyle}">Broj osoba trenutno na cekanju: </TextBlock>
                                     <TextBlock Text="{Binding Queued}" Style="{StaticResource PhoneTextSubtleStyle}"></TextBlock>

@@ -117,7 +117,7 @@ namespace So_Gen_Lokacije.ViewModels
         {
             await GetCurrentLocation();
             var responseString = await "http://172.25.28.112/services/mobile_get_office.php"
-                .PostUrlEncodedAsync(new { data = "{\"0\":\"063297167\"}", thing2 = "world" })
+                .PostUrlEncodedAsync(new { data = "{\"0\":\"+381638620648\"}", thing2 = "world" })
                 .ReceiveString();
 
             String[] entries = responseString.Split(new char[] { ';', '~'});            

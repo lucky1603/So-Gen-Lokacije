@@ -44,10 +44,18 @@ namespace So_Gen_Lokacije
         {
             if(sender == this.ServiceList)
             {
+                ServiceViewModel svm = (ServiceViewModel)this.ServiceList.SelectedItem;
+                ItemViewModel ivm = (ItemViewModel)this.LocationList.SelectedItem;
+                string message = "Zahtevali ste rezervaciju servisa - " + svm.Description + ". Svaka zloupotreba se surovo kaznjava!!! Jeste li sigurni da hocete da nastavite?";
+                if(MessageBox.Show(message) == MessageBoxResult.OK)
+                {
+                    await svm.MakeReservation(ivm.Id);
+                }
+                
                 this.LayoutRoot.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Star);
                 this.LayoutRoot.RowDefinitions[2].Height = new GridLength(0);
             }
-            else
+            else if(sender == this.LocationList)
             {
                 if (((LongListSelector)sender).SelectedItem.GetType().Equals(typeof(ItemViewModel)))
                 {
