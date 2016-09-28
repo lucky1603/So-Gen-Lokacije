@@ -18,7 +18,7 @@
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="0" />
         </Grid.RowDefinitions>
 
@@ -95,7 +95,7 @@
             <TextBlock TextWrapping="Wrap" Style="{StaticResource PhoneTextNormalStyle}" Margin="12, 30, 0, 0">
                 Dobrodošli u našu ekspozituru. Na raspolaganju su vam sledeći servisi:
             </TextBlock>
-            <phone:LongListSelector x:Name="ServiceList" ItemsSource="{Binding Services}" Margin="12, 40, 0, 0">
+            <phone:LongListSelector x:Name="ServiceList" ItemsSource="{Binding Services}" Margin="12, 40, 0, 0" SelectionChanged="LongListSelector_SelectionChanged">
                 <phone:LongListSelector.ItemTemplate>
                     <DataTemplate>
                         <Grid x:Name="serviceGrid">
@@ -103,7 +103,7 @@
                                 <ColumnDefinition Width="70"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="{Binding Id}" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                            <TextBlock Grid.Column="0" Text="{Binding OrderMark}" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
                             <Grid Grid.Column="1">
                                 <Grid.RowDefinitions>
                                     <RowDefinition />

@@ -1,7 +1,11 @@
-﻿using System;
+﻿using Flurl.Http;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -215,23 +219,87 @@ namespace So_Gen_Lokacije.ViewModels
             Services.Add(new ServiceViewModel()
             {
                 Id = 1,
+                OrderMark = "A",
                 Description = "Uplata/isplata - privatna lica",
-                Queued = 5
+                Queued = 5,
+                MinutesEstimated = 0
             });
 
             Services.Add(new ServiceViewModel()
             {
                 Id = 2,
+                OrderMark = "B",
                 Description = "Uplata/isplata - pravna lica",
-                Queued = 7
+                Queued = 7, 
+                MinutesEstimated = 0
             });
 
             Services.Add(new ServiceViewModel()
             {
                 Id = 3,
+                OrderMark = "C",
                 Description = "Uplata/isplata - pravna lica",
-                Queued = 2
+                Queued = 2,
+                MinutesEstimated = 0
             });
+
+            using (var client = new HttpClient())
+            {
+                String[] args = new String[] { "063297167", "1" };                
+
+                var values = new Dictionary<string, string>
+                {
+                   { "data[0]", "063297167" },
+                   { "data[1]", Id.ToString() }
+                };
+
+                var content = new FormUrlEncodedContent(values);
+                var response = await client.PostAsync("http://172.25.28.112/services/mobile_get_services.php", content);
+                var responseString = await response.Content.ReadAsStringAsync();
+                if(!responseString.Contains("error") && !responseString.Contains("Error"))
+                {
+                    Services.Clear();
+                    String[] entries = responseString.Split(new char[] { '~', ';' });
+                    if(entries.Length > 1 && !String.IsNullOrEmpty(entries[1]))
+                    {
+                        for (int i = 0; i < entries.Length; i++)
+                        {
+                            if (i == 0)
+                            {
+                                // For now, no check (TODO -> implement later.)
+                                continue;
+                            }
+                            else
+                            {
+                                String[] tokens = entries[i].Split('|');
+                                ServiceViewModel svm = new ServiceViewModel
+                                {
+                                    Id = i,
+                                    OrderMark = tokens[0],
+                                    Description = tokens[1],
+                                    Queued = System.Convert.ToInt32(tokens[2]),
+                                    MinutesEstimated = System.Convert.ToInt32(tokens[3])
+                                };
+                                Services.Add(svm);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Services.Add(new ServiceViewModel
+                        {
+                            Id = 0,
+                            OrderMark = "!",
+                            Description = "Nema definisanih servisa",
+                            Queued = 0,
+                            MinutesEstimated = 0
+                        });
+                    }
+                    
+                }                
+            }
+
+            int a = 1;
         }
     }
 }

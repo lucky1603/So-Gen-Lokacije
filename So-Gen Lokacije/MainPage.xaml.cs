@@ -42,14 +42,23 @@ namespace So_Gen_Lokacije
         /// <param name="e"></param>
         private async void LongListSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (((LongListSelector)sender).SelectedItem.GetType().Equals(typeof(ItemViewModel)))
+            if(sender == this.ServiceList)
             {
-                ItemViewModel ivm = (ItemViewModel)((LongListSelector)sender).SelectedItem;
-                await ivm.GetLocationData();
-                this.SecondPanel.DataContext = ivm;
-                this.LayoutRoot.RowDefinitions[1].Height = new GridLength(0);
-                this.LayoutRoot.RowDefinitions[2].Height = GridLength.Auto;
+                this.LayoutRoot.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Star);
+                this.LayoutRoot.RowDefinitions[2].Height = new GridLength(0);
             }
+            else
+            {
+                if (((LongListSelector)sender).SelectedItem.GetType().Equals(typeof(ItemViewModel)))
+                {
+                    ItemViewModel ivm = (ItemViewModel)((LongListSelector)sender).SelectedItem;
+                    await ivm.GetLocationData();
+                    this.SecondPanel.DataContext = ivm;
+                    this.LayoutRoot.RowDefinitions[1].Height = new GridLength(0);
+                    this.LayoutRoot.RowDefinitions[2].Height = new GridLength(1, GridUnitType.Star);
+                }
+            }
+            
         }
 
         // Sample code for building a localized ApplicationBar

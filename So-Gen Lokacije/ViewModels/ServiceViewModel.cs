@@ -11,8 +11,10 @@ namespace So_Gen_Lokacije.ViewModels
     {
 
         private int id;
+        private string orderMark;
         private string description;
         private int queued;
+        private int minutesEstimated;
 
         public int Id
         {
@@ -26,6 +28,7 @@ namespace So_Gen_Lokacije.ViewModels
                 id = value;
             }
         }
+
 
         public string Description
         {
@@ -53,7 +56,31 @@ namespace So_Gen_Lokacije.ViewModels
             }
         }
 
+        public int MinutesEstimated
+        {
+            get
+            {
+                return minutesEstimated;
+            }
 
+            set
+            {
+                minutesEstimated = value;
+            }
+        }
+
+        public string OrderMark
+        {
+            get
+            {
+                return orderMark;
+            }
+
+            set
+            {
+                orderMark = value;
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String propertyName)
@@ -67,6 +94,7 @@ namespace So_Gen_Lokacije.ViewModels
 
         public int CompareTo(ServiceViewModel other)
         {
+
             if (other.Id > Id)
                 return -1;
             else
