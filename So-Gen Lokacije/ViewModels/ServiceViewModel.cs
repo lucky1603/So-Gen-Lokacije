@@ -83,6 +83,14 @@ namespace So_Gen_Lokacije.ViewModels
             }
         }
 
+        public string MinutesText
+        {
+            get
+            {
+                return "Procenjeno cekanje " + String.Format("{0}", (int) this.minutesEstimated) + " min";
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String propertyName)
         {

@@ -110,12 +110,14 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
                                     <RowDefinition />
+                                    <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <TextBlock Text="{Binding Description}" Grid.Row="0" Style="{StaticResource PhoneTextTitle3Style}" TextWrapping="Wrap"/>
                                 <StackPanel Grid.Row="1" Orientation="Horizontal">
                                     <TextBlock Style="{StaticResource PhoneTextSmallStyle}">Broj osoba trenutno na cekanju: </TextBlock>
                                     <TextBlock Text="{Binding Queued}" Style="{StaticResource PhoneTextSubtleStyle}"></TextBlock>
                                 </StackPanel>
+                                <TextBlock Grid.Row="2" Text="{Binding MinutesText}" Style="{StaticResource PhoneTextSubtleStyle}" />
                             </Grid>
                         </Grid>
                     </DataTemplate>
