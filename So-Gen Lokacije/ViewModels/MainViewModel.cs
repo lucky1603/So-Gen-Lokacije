@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Flurl.Http;
 using Windows.Devices.Geolocation;
 using System.Linq;
+using System.Device.Location;
 
 namespace So_Gen_Lokacije.ViewModels
 {
@@ -18,11 +19,13 @@ namespace So_Gen_Lokacije.ViewModels
         private double _latitude = 0.0;
         private double _longitude = 0.0;
         private ItemViewModel selectedItem;
+        private GeoCoordinate _geoCoordinate;
 
         public MainViewModel()
         {
             this.Items = new SortedObservableCollection<ItemViewModel>();
-            this.Items.OrderBy(g => g.Distance);                       
+            this.Items.OrderBy(g => g.Distance);
+            this.GeoCoordinate = new GeoCoordinate(44, 22);
         }
 
         /// <summary>
@@ -110,6 +113,20 @@ namespace So_Gen_Lokacije.ViewModels
             private set;
         }
 
+        public GeoCoordinate GeoCoordinate
+        {
+            get
+            {
+                return _geoCoordinate;
+            }
+
+            set
+            {
+                _geoCoordinate = value;
+                this.NotifyPropertyChanged("GeoCoordinate");
+            }
+        }
+
         /// <summary>
         /// Creates and adds a few ItemViewModel objects into the Items collection.
         /// </summary>
@@ -157,6 +174,7 @@ namespace So_Gen_Lokacije.ViewModels
             }
                   
             this.IsDataLoaded = true;
+            this.NotifyPropertyChanged("GeoCoordinate");
         }
 
         private double toRad(double grad)
@@ -205,6 +223,12 @@ namespace So_Gen_Lokacije.ViewModels
                     this._latitude = 44.8044219;
                 if(this._longitude == 0)
                     this._longitude = 20.3995146;
+
+                GeoCoordinate c = CoordinateConverter.ConvertGeocoordinate(currentLocation.Coordinate);
+                c.Latitude = 44.8044219;
+                c.Longitude = 20.3995146;
+                this.GeoCoordinate = c;
+
             }
             catch (UnauthorizedAccessException)
             {

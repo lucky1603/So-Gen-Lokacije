@@ -9,6 +9,9 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using So_Gen_Lokacije.Resources;
 using So_Gen_Lokacije.ViewModels;
+using System.Windows.Shapes;
+using Microsoft.Phone.Maps.Controls;
+using System.Windows.Media;
 
 namespace So_Gen_Lokacije
 {
@@ -22,16 +25,27 @@ namespace So_Gen_Lokacije
             // Set the data context of the listbox control to the sample data
             DataContext = App.ViewModel;
 
+            App.ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
         }
-        
+
+        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == "GeoCoordinate")
+            {
+                DrawMapLocations();
+            }
+        }
+
         // Load data for the ViewModel Items
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (!App.ViewModel.IsDataLoaded)
             {
                 App.ViewModel.LoadData();
+                DrawMapLocations();
             }
         }
 
@@ -102,6 +116,40 @@ namespace So_Gen_Lokacije
                     this.LayoutRoot.RowDefinitions[2].Height = new GridLength(1, GridUnitType.Star);
                 }
             }
+        }
+
+        private void DrawMapLocations()
+        {
+            if(this.MyMap.Layers.Count > 0)
+            {
+                this.MyMap.Layers.Clear();
+            }
+
+            // Create a small circle to mark the current location.
+            Ellipse myCircle = new Ellipse();
+            myCircle.Fill = new SolidColorBrush(Colors.Blue);
+            myCircle.Height = 20;
+            myCircle.Width = 20;
+            myCircle.Opacity = 50;
+
+            Rectangle myRect = new Rectangle();
+            myRect.Fill = new SolidColorBrush(Colors.Red);
+            myRect.Height = 15;
+            myRect.Width = 15;
+            myRect.Opacity = 50;
+
+            // Create a MapOverlay to contain the circle.
+            MapOverlay myLocationOverlay = new MapOverlay();
+            myLocationOverlay.Content = myCircle;
+            myLocationOverlay.PositionOrigin = new Point(0.5, 0.5);
+            myLocationOverlay.GeoCoordinate = App.ViewModel.GeoCoordinate;
+
+            // Create a MapLayer to contain the MapOverlay.
+            MapLayer myLocationLayer = new MapLayer();
+            myLocationLayer.Add(myLocationOverlay);
+            
+            // Add the MapLayer to the Map.
+            this.MyMap.Layers.Add(myLocationLayer);
         }
 
         // Sample code for building a localized ApplicationBar
