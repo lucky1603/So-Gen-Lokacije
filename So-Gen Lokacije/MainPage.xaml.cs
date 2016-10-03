@@ -147,6 +147,8 @@ namespace So_Gen_Lokacije
             // Create a MapLayer to contain the MapOverlay.
             MapLayer myLocationLayer = new MapLayer();
             myLocationLayer.Add(myLocationOverlay);
+
+            this.MyMap.LandmarksEnabled = true;                        
             
             // Add the MapLayer to the Map.
             this.MyMap.Layers.Add(myLocationLayer);
