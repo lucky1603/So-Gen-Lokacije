@@ -148,10 +148,63 @@ namespace So_Gen_Lokacije
             MapLayer myLocationLayer = new MapLayer();
             myLocationLayer.Add(myLocationOverlay);
 
-            this.MyMap.LandmarksEnabled = true;                        
+            this.MyMap.LandmarksEnabled = true;
             
             // Add the MapLayer to the Map.
             this.MyMap.Layers.Add(myLocationLayer);
+
+            
+            if (App.ViewModel.Items.Count > 0)
+            {
+                MapLayer itemsLayer = new MapLayer();
+                foreach (ItemViewModel ivm in App.ViewModel.Items)
+                {
+                    Rectangle itemRectangle = new Rectangle();
+                    itemRectangle.Fill = new SolidColorBrush(Colors.Red);
+                    itemRectangle.Height = 20;
+                    itemRectangle.Width = 20;
+                    itemRectangle.Opacity = 50;
+
+                    // Create a MapOverlay to contain the circle.
+                    MapOverlay itemOverlay = new MapOverlay();
+                    itemOverlay.Content = itemRectangle;
+                    itemOverlay.PositionOrigin = new Point(0.5, 0.5);
+                    itemOverlay.GeoCoordinate = new System.Device.Location.GeoCoordinate(ivm.Latitude, ivm.Longitude);
+
+                    itemsLayer.Add(itemOverlay);
+                }
+
+                this.MyMap.Layers.Add(itemsLayer);
+            }
+
+            //Ellipse anotherCircle = new Ellipse();
+            //anotherCircle.Fill = new SolidColorBrush(Colors.Red);
+            //anotherCircle.Height = 20;
+            //anotherCircle.Width = 20;
+            //anotherCircle.Opacity = 50;
+
+            //// Create a MapOverlay to contain the circle.
+            //MapOverlay anotherOverlay = new MapOverlay();
+            //anotherOverlay.Content = anotherCircle;
+            //anotherOverlay.PositionOrigin = new Point(0.5, 0.5);
+            //anotherOverlay.GeoCoordinate = new System.Device.Location.GeoCoordinate(44.8063526, 20.4049907);
+
+            //Ellipse secondrCircle = new Ellipse();
+            //secondrCircle.Fill = new SolidColorBrush(Colors.Red);
+            //secondrCircle.Height = 20;
+            //secondrCircle.Width = 20;
+            //secondrCircle.Opacity = 50;
+
+            //MapOverlay secondOverlay = new MapOverlay();
+            //secondOverlay.Content = secondrCircle;
+            //secondOverlay.PositionOrigin = new Point(0.5, 0.5);
+            //secondOverlay.GeoCoordinate = new System.Device.Location.GeoCoordinate(44.8024135, 20.3879428);
+
+            //MapLayer another = new MapLayer();
+            //another.Add(anotherOverlay);
+            //another.Add(secondOverlay);
+            //this.MyMap.Layers.Add(another);
+            
         }
 
         // Sample code for building a localized ApplicationBar
