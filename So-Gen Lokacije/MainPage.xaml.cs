@@ -12,6 +12,7 @@ using So_Gen_Lokacije.ViewModels;
 using System.Windows.Shapes;
 using Microsoft.Phone.Maps.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace So_Gen_Lokacije
 {
@@ -60,14 +61,15 @@ namespace So_Gen_Lokacije
             {
                 ServiceViewModel svm = (ServiceViewModel)this.ServiceList.SelectedItem;
                 ItemViewModel ivm = (ItemViewModel)this.LocationList.SelectedItem;
+                                
                 string message = "Zahtevali ste rezervaciju servisa - " + svm.Description + ". Jeste li sigurni da hocete da nastavite?";
-                if(MessageBox.Show(message, "Provera", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                if (MessageBox.Show(message, "Provera", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                 {
                     svm.MakeReservation(ivm.Id);
                     message = "Poslali ste zahtev za rezervacijom servisa - " + svm.Description + ". Uskoro ćete kao potvrdu primiti SMS poruku sa vašim brojem na listi čekanja. Sačuvajte tu poruku.";
                     MessageBox.Show(message, "Potvrda", MessageBoxButton.OK);
                 }
-                                
+
                 this.LayoutRoot.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Star);
                 this.LayoutRoot.RowDefinitions[2].Height = new GridLength(0);
             }
@@ -87,12 +89,13 @@ namespace So_Gen_Lokacije
        
         private async void ServiceList_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
+            MainViewModel mvm = App.ViewModel;
             if (sender == this.ServiceList)
             {
-                ServiceViewModel svm = (ServiceViewModel)this.ServiceList.SelectedItem;
-                ItemViewModel ivm = (ItemViewModel)this.LocationList.SelectedItem;
-                if(svm.Id != -1)
+                ServiceViewModel svm = (ServiceViewModel)this.ServiceList.SelectedItem;                                
+                if (svm.Id != -1)
                 {
+                    ItemViewModel ivm = (ItemViewModel)this.LocationList.SelectedItem;
                     string message = "Zahtevali ste rezervaciju servisa - " + svm.Description + ". Jeste li sigurni da hocete da nastavite?";
                     if (MessageBox.Show(message, "Provera", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
                     {
@@ -101,7 +104,7 @@ namespace So_Gen_Lokacije
                         MessageBox.Show(message, "Potvrda", MessageBoxButton.OK);
                     }
                 }
-                
+
                 this.LayoutRoot.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Star);
                 this.LayoutRoot.RowDefinitions[2].Height = new GridLength(0);
             }
@@ -114,7 +117,7 @@ namespace So_Gen_Lokacije
                     this.SecondPanel.DataContext = ivm;
                     this.LayoutRoot.RowDefinitions[1].Height = new GridLength(0);
                     this.LayoutRoot.RowDefinitions[2].Height = new GridLength(1, GridUnitType.Star);
-                }
+                }                      
             }
         }
 
@@ -157,13 +160,20 @@ namespace So_Gen_Lokacije
             if (App.ViewModel.Items.Count > 0)
             {
                 MapLayer itemsLayer = new MapLayer();
+                
                 foreach (ItemViewModel ivm in App.ViewModel.Items)
                 {
                     Rectangle itemRectangle = new Rectangle();
                     itemRectangle.Fill = new SolidColorBrush(Colors.Red);
-                    itemRectangle.Height = 20;
-                    itemRectangle.Width = 20;
+                    itemRectangle.Height = 30;
+                    itemRectangle.Width = 30;
                     itemRectangle.Opacity = 50;
+                    itemRectangle.Tap += ItemRectangle_Tap;
+                    itemRectangle.Name = ivm.LineOne;
+                    ImageBrush ib = new ImageBrush();
+                    ib.ImageSource = new BitmapImage(new Uri("Assets/Icons/sogen-logo.png", UriKind.Relative));
+                    itemRectangle.Fill = ib;
+                
 
                     // Create a MapOverlay to contain the circle.
                     MapOverlay itemOverlay = new MapOverlay();
@@ -175,36 +185,24 @@ namespace So_Gen_Lokacije
                 }
 
                 this.MyMap.Layers.Add(itemsLayer);
-            }
+            }            
+        }
 
-            //Ellipse anotherCircle = new Ellipse();
-            //anotherCircle.Fill = new SolidColorBrush(Colors.Red);
-            //anotherCircle.Height = 20;
-            //anotherCircle.Width = 20;
-            //anotherCircle.Opacity = 50;
-
-            //// Create a MapOverlay to contain the circle.
-            //MapOverlay anotherOverlay = new MapOverlay();
-            //anotherOverlay.Content = anotherCircle;
-            //anotherOverlay.PositionOrigin = new Point(0.5, 0.5);
-            //anotherOverlay.GeoCoordinate = new System.Device.Location.GeoCoordinate(44.8063526, 20.4049907);
-
-            //Ellipse secondrCircle = new Ellipse();
-            //secondrCircle.Fill = new SolidColorBrush(Colors.Red);
-            //secondrCircle.Height = 20;
-            //secondrCircle.Width = 20;
-            //secondrCircle.Opacity = 50;
-
-            //MapOverlay secondOverlay = new MapOverlay();
-            //secondOverlay.Content = secondrCircle;
-            //secondOverlay.PositionOrigin = new Point(0.5, 0.5);
-            //secondOverlay.GeoCoordinate = new System.Device.Location.GeoCoordinate(44.8024135, 20.3879428);
-
-            //MapLayer another = new MapLayer();
-            //another.Add(anotherOverlay);
-            //another.Add(secondOverlay);
-            //this.MyMap.Layers.Add(another);
-            
+        private async void ItemRectangle_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Rectangle itemRectangle = (Rectangle)sender;
+            MainViewModel mvm = (MainViewModel)itemRectangle.DataContext;                        
+            foreach(ItemViewModel ivm in mvm.Items)
+            {
+                if(ivm.LineOne.Equals(itemRectangle.Name))
+                {
+                    await ivm.GetLocationData();
+                    this.SecondPanel.DataContext = ivm;
+                    this.LayoutRoot.RowDefinitions[1].Height = new GridLength(0);
+                    this.LayoutRoot.RowDefinitions[2].Height = new GridLength(1, GridUnitType.Star);
+                    break;
+                }                
+            }            
         }
 
         // Sample code for building a localized ApplicationBar

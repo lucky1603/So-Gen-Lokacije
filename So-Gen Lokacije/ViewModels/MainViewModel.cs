@@ -25,7 +25,8 @@ namespace So_Gen_Lokacije.ViewModels
         {
             this.Items = new SortedObservableCollection<ItemViewModel>();
             this.Items.OrderBy(g => g.Distance);
-            this.GeoCoordinate = new GeoCoordinate(44, 22);
+            this.GeoCoordinate = new GeoCoordinate(44.8044219, 20.3995146);
+
         }
 
         /// <summary>

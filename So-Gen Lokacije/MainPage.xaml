@@ -64,7 +64,7 @@
             <phone:PivotItem Header="List">
                 <!--Double line list with text wrapping-->
                 <phone:LongListSelector x:Name="LocationList" Margin="0,0,-12,0" ItemsSource="{Binding Items}" 
-                           SelectedItem="{Binding SelectedItem}" Tap="ServiceList_Tap">
+                           SelectedItem="{Binding SelectedItem, Mode=TwoWay}" Tap="ServiceList_Tap">
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Margin="0,0,0,17">
